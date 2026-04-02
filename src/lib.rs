@@ -1,3 +1,4 @@
+#![deny(missing_debug_implementations)]
 #![doc = include_str!("../README.md")]
 
 mod fft;
@@ -37,7 +38,7 @@ pub enum FFTConvolverError {
 ///   "unpredictable" operations like allocations, locking, API calls, etc. are
 ///   performed during processing (all necessary allocations and preparations take
 ///   place during initialization).
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct FFTConvolver<F: FftNum> {
     ir_len: usize,
     block_size: usize,

@@ -1,7 +1,7 @@
 use realfft::num_complex::Complex;
 use realfft::{ComplexToReal, FftError, FftNum, RealFftPlanner, RealToComplex};
 use rtsan_standalone::nonblocking;
-use std::sync::Arc;
+use std::{fmt, sync::Arc};
 
 #[derive(Clone)]
 pub struct Fft<F: FftNum> {
@@ -9,6 +9,15 @@ pub struct Fft<F: FftNum> {
     scratch_forward: Vec<Complex<F>>,
     fft_inverse: Arc<dyn ComplexToReal<F>>,
     scratch_inverse: Vec<Complex<F>>,
+}
+
+impl<F: FftNum + fmt::Debug> fmt::Debug for Fft<F> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Fft")
+            .field("scratch_forward", &self.scratch_forward)
+            .field("scratch_inverse", &self.scratch_inverse)
+            .finish_non_exhaustive()
+    }
 }
 
 impl<F: FftNum> Default for Fft<F> {
